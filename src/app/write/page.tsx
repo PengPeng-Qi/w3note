@@ -44,6 +44,13 @@ export default function page() {
             </Breadcrumb>
           </div>
         </header>
+
+        <main>
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+            <h1 className="text-2xl font-bold">发布笔记</h1>
+            <p>发布笔记</p>
+          </div>
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );
