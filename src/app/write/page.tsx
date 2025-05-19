@@ -1,9 +1,6 @@
-import { AppSidebar } from "@/components/app-sidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 import {
   Breadcrumb,
@@ -16,42 +13,42 @@ import {
 
 export default function page() {
   return (
-    <SidebarProvider>
-      <AppSidebar />
+    <>
+      <header className="flex h-16 shrink-0 items-center gap-2">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
 
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 data-[orientation=vertical]:h-4"
+          />
 
-            <Separator
-              orientation="vertical"
-              className="mr-2 data-[orientation=vertical]:h-4"
-            />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <BreadcrumbLink href="/">Web3 投资笔记</BreadcrumbLink>
+              </BreadcrumbItem>
 
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/">Web3 投资笔记</BreadcrumbLink>
-                </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
 
-                <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem>
+                <BreadcrumbPage>发布笔记</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </div>
+      </header>
 
-                <BreadcrumbItem>
-                  <BreadcrumbPage>发布笔记</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
+      <main>
+        <div className="w-2/3 h-1/2 flex flex-col justify-center items-center m-52">
+          <Textarea
+            className="min-h-[200px]"
+            placeholder="Type your message here."
+          />
 
-        <main>
-          <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <h1 className="text-2xl font-bold">发布笔记</h1>
-            <p>发布笔记</p>
-          </div>
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+          <Button className="mt-12">Send message</Button>
+        </div>
+      </main>
+    </>
   );
 }
