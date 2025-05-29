@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,11 +11,23 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const { data: session } = useSession();
+
+  if (session) {
+    return (
+      <div>
+        欢迎, {session.user?.name} <br />
+        <button onClick={() => signOut()}>退出登录</button>
+      </div>
+    );
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -28,7 +42,13 @@ export function LoginForm({
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" placeholder="" required />
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder=""
+                  required
+                  autoComplete="email"
+                />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
@@ -40,13 +60,28 @@ export function LoginForm({
                     Forgot your password?
                   </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  autoComplete="current-password"
+                />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
                   Login
                 </Button>
-                <Button variant="outline" className="w-full">
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    signIn("google", {
+                      callbackUrl: "/notes",
+                      redirect: true,
+                    });
+                  }}
+                >
                   Login with Google
                 </Button>
               </div>
