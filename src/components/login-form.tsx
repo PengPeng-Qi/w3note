@@ -11,23 +11,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
-  const { data: session } = useSession();
-
-  if (session) {
-    return (
-      <div>
-        欢迎, {session.user?.name} <br />
-        <button onClick={() => signOut()}>退出登录</button>
-      </div>
-    );
-  }
-
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -77,7 +66,7 @@ export function LoginForm({
                   onClick={(e) => {
                     e.preventDefault();
                     signIn("google", {
-                      callbackUrl: "/notes",
+                      callbackUrl: "/notes/center",
                       redirect: true,
                     });
                   }}
@@ -86,12 +75,6 @@ export function LoginForm({
                 </Button>
               </div>
             </div>
-            {/* <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <a href="/sign-up" className="underline underline-offset-4">
-                Sign up
-              </a>
-            </div> */}
           </form>
         </CardContent>
       </Card>

@@ -11,7 +11,6 @@ import {
   Settings2,
   SquareTerminal,
 } from "lucide-react";
-
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import {
@@ -19,13 +18,10 @@ import {
   SidebarContent,
   SidebarFooter,
 } from "@/components/ui/sidebar";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Playground",
@@ -139,14 +135,40 @@ const data = {
   ],
 };
 
+// 将 user 相关类型定义提取出来
+type User = {
+  name: string;
+  email: string;
+  avatar: string;
+};
+
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useSession();
+
+  const [user, setUser] = useState<User>({
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  });
+
+  useEffect(() => {
+    if (session?.user) {
+      setUser({
+        name: session.user.name ?? "",
+        email: session.user.email ?? "",
+        avatar: session.user.image ?? "/avatars/shadcn.jpg",
+      });
+    }
+  }, [session]);
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarContent>
         <NavProjects projects={data.projects} />
       </SidebarContent>
+
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

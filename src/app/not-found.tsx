@@ -10,12 +10,9 @@ export default function NotFound() {
         </h1>
         <h2 className="text-2xl font-semibold">Page Not Found</h2>
         <p className="text-muted-foreground">
-          Sorry, we couldn't find the page you're looking for.
+          Sorry, we couldn&apos;t find the page you&apos;re looking for.
         </p>
         <div className="flex justify-center gap-2">
-          <Button variant="outline" asChild>
-            <Link href="/login">Go Login</Link>
-          </Button>
           <Button asChild>
             <Link href="/notes/center">View Notes</Link>
           </Button>
